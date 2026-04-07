@@ -98,66 +98,85 @@ Problem Statement (1 paragraf):
 
 ---
 
-## Latihan 1 — Dari Topik ke Masalah Riset
+#**TUGAS**   
+**WORKSHEET 2**   
+**PROBLEM STATEMENT**
+
+NAMA 	: Nur Dini Handayani  
+KELAS	: 4IKRB  
+NIM		: 240202876
+
+**\#\# Latihan 1 — Dari Topik ke Masalah Riset**
 
 Pilih satu topik di bidang TI yang diminati. Transformasikan melalui 5 tahap Problem Formation Model.
 
-**Topik awal:** ________________________________________
+**\*\*Topik awal:\*\*** *\_\_*\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-| Tahap | Hasil |
-|-------|-------|
-| Reality | *Contoh: Aplikasi e-commerce sering ditinggalkan saat checkout* |
-| Observed Issue (Symptom) | *Contoh: Bounce rate checkout 68%* |
-| Diagnosed Problem (Root Cause) | |
-| Researchable Problem | |
+| Tahap | Hasil |  
+|-------|-------|  
+| Reality | *\*Contoh: Aplikasi e-commerce sering ditinggalkan saat checkout\** |  
+| Observed Issue (Symptom) | *\*Contoh: Bounce rate checkout 68%\** |  
+| Diagnosed Problem (Root Cause) | |  
+| Researchable Problem | |  
 | Measurable Variable | |
 
-**Apakah terjebak solution-first thinking?** [ ] Ya / [ ] Tidak
-> Jika ya, kembali ke tahap mana? ________________________
+**\*\*Apakah terjebak solution-first thinking?\*\*** \[ \] Ya / \[ \] Tidak  
+\> Jika ya, kembali ke tahap mana? *\_\_*\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
----
+LATIHAN 1   
+dari Topik ke Masalah Riset 
 
-## Latihan 2 — System Context Decomposition
+TOPIK AWAL :   
+Optimasi Protokol Routing pada Flying Ad-hoc Networks (FANET) untuk area bencana  
+*FANET Routing Protocol for Prioritizing Data Transmission to the Ground Station*  
+Link Jurnal : [https://www.mdpi.com/2673-8732/6/1/7](https://www.mdpi.com/2673-8732/6/1/7)
 
-Gambarkan konteks sistem dari masalah riset di Latihan 1.
+| TAHAP | HASIL |
+| ----- | ----- |
+| Reality  | Penggunaan Drone (UAV) untuk memantau area bencana sering terkendala komunikasi data ke posko pusat  |
+| Observed Issue (Symptom) | *Packet Delivery ratio* (PDR) rendah (\< 60%) dan latensi tinggi saat drone bergerak cepat atau menjauh dari pusat |
+| Diagnosed Problem (Root Cause) | *Protokol Routing standar* (Seperti AODV/DSR) tidak dirancang untuk topologi yang berubah sangat cepat dan fokus pada komunikasi antar node, bukan fokus *ke Ground Station* (GS) |
+| Researchable Problem | Belum ada mekanisme routing yang memprioritaskan pembaruan jalur secara periodik dari Ground Station untuk menjaga stabilitas transmisi data observasi pada mobilitas tinggi. |
+| Measurable Variabel | *Packet Delivery Ratio* (%), A*verage End-to-End Latency* (ms), dan *Routing Control Overhead* |
 
-| Komponen | Deskripsi |
-|----------|----------|
-| Input | *Contoh: Request HTTP dari browser pengguna* |
-| Process | |
-| Output | |
-| Outcome | |
-| Constraints | |
-| Stakeholders | |
+dan penelitian ini tidak terjebak pada Solution First Thinking 
 
-**Komponen mana yang paling relevan dengan masalah riset?** _______________
+LATIHAN 2   
+System Context Decomposition
 
----
+Link Jurnal : [https://www.mdpi.com/2673-8732/6/1/7](https://www.mdpi.com/2673-8732/6/1/7)  
+Berdasarkan riset Jurnal *FANET Routing Protocol for Prioritizing Data Transmission to the Ground Station, berikut adalah dekomposisi konteks sistemnya :* 
 
-## Latihan 3 — Problem Quality Check
+| KOMPONEN | DESKRIPSI |
+| ----- | ----- |
+| Input | Data Observasi (Foto/Video/Sensor) dari UAV dan paket kontrol *routing* (GS flood) |
+| Proses | Penentuan jalur terpendek dan terstabil dari UAV menuju Ground Station berdasarkan informasi *Hop Count* terbaru |
+| Output | Paket data yang berhasil sampai ke Ground Station dan Tabel *routing* yang terupdate. |
+| Outcome | Informasi situasi bencana yang akurat dan *real-time* bagi tim penyelamat di darat. |
+| Constrain | Bandwidth terbatas, konsumsi daya baterai drone, dan mobilitas node yang tinggi (kecepatan \> 10m/s) |
+| Stakeholders | TIM SAR, Operator Drone, Peneliti Jaringan, dan masyarakat di area bencana |
 
-Evaluasi problem statement yang sudah dibuat menggunakan 5 kriteria.
+Komponen yang paling relevan dengan masalah riset adalah proses yang membahas tentang mekanisme pembaruan jalur/routing.  
+LATIHAN 3   
+Problem Quality Check 
 
-| Kriteria | Skor (1-5) | Justifikasi |
-|----------|-----------|-------------|
-| Clarity | *Contoh: 4 — cukup jelas tapi perlu spesifikasi dataset* | |
-| Measurability | | |
-| Relevance | | |
-| Testability | | |
-| Impact | | |
+| KRITERIA | SKOR (1-5) | JUSTIFIKASI |
+| ----- | :---: | ----- |
+| Clarity | 5 | Masalah sangat spesifik pada pengiriman data dari drone ke satelit (uplink) |
+| Measurability | 5 | PDR dan latensi adalah metrik standar yang sangat kuantitatif dalam simulasi jaringan  |
+| Relevance | 5 | sangat penting untuk mitigasi bencana dan telekomunikasi masa depan |
+| Testability | 5 | Bisa diuji menggunakan simulator seperti NS-3 dan dibandingkan dengan protokol lama |
+| Impact | 4 | Memberikan kontribusi pada efisiensi komunikasi darurat di area tanpa infrastruktur  |
 
-**Skor total:** _____ / 25
+Skor total 24/25
 
-**Problem statement versi final (1 paragraf):**
-> ___________________________________________________
-> ___________________________________________________
-
----
+Dalam skenario tanggap darurat bencana, pengiriman data observasi dari *Unmanned Aerial Vehicles (UAV)* ke Ground Station melalui Flying Ad Hoc Networks (FANET) sering mengalami kegagalan transmisi (PDR rendah) akibat topologi jaringan yang sangat dinamis. protokol routing konvensional seperti AODV gagal mempertahankan jalur yang stabil karena tidak memprioritaskan arah trafik menuju GS. oleh karena itu, diperlukan penelitian untuk mengembangkan protokol routing yang menggunakan mekanisme GS-flood Guna memastikan setiap drone memiliki jalur terbaru ke pusat kendali, sehingga stabilitas pengiriman data tetap terjaga meskipun dalam mobilitas tinggi
 
 ## Refleksi
 
 > Bandingkan "masalah" yang biasa ditemui saat coding (bug, error) dengan masalah riset. Apa perbedaan fundamental dalam cara mendefinisikan dan mendekati keduanya?
 
 **Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+>Perbedaan fundamental terletak pada tujuannya. Saat coding, masalah (bug) adalah penghalang yang harus segera diperbaiki agar sistem berjalan (fungsional). Pendekatannya adalah trial and error atau debugging hingga error hilang.
+
+>Dalam riset, masalah adalah celah pengetahuan (gap) yang harus dibuktikan keberadaannya secara ilmiah. Kita tidak hanya mencari "cara agar aplikasi jalan", tapi "mengapa cara A lebih baik dari cara B" dengan data yang valid. Mendefinisikan masalah riset membutuhkan batasan (scope) yang ketat agar hasilnya bisa direplikasi oleh orang lain, bukan sekadar memperbaiki fitur yang rusak.
