@@ -62,107 +62,98 @@ Jika rantai ini tidak lengkap, RQ belum mature. Bi-directional: RQ yang tidak bi
 
 ---
 
-## Template A.4 — RQ-Contribution-Hypothesis
+RQ-Contribution-Hypothesis
 
-```
-RQ-CONTRIBUTION-HYPOTHESIS
+```text
+GAP IDENTIFICATION
 
-Gap Statement  : ____________________
+Gap Statement  : Pendekatan optimasi berbasis Deep Reinforcement Learning (DRL) konvensional memiliki overhead komputasi yang terlalu tinggi untuk konvergensi tabel routing global, sementara implementasi sistem terprogram penuh seperti SDN memerlukan biaya perombakan infrastruktur router fisik yang sangat tinggi pada level ISP.
 
 Research Question:
-  Tipe         : [ ] Comparison  [ ] Improvement  [ ] Exploratory
-  Formulasi    : ____________________
-  Variabel IV  : ____________________
-  Variabel DV  : ____________________
-  Metrik       : ____________________
-  Dataset      : ____________________
-  Baseline     : ____________________
+  Tipe         : [X] Comparison  [X] Improvement  [ ] Exploratory
+  Formulasi    : Apakah integrasi arsitektur Hybrid LSTM-BGP pada router konvensional mampu menghasilkan waktu konvergensi rute inter-domain yang lebih cepat dan packet loss yang lebih rendah dibandingkan dengan protokol BGP standar dan model prediktif LSTM murni pada dataset lalu lintas publik RIPE Atlas?
+  Variabel IV  : Jenis arsitektur routing (BGP standar vs LSTM murni vs Hybrid LSTM-BGP)
+  Variabel DV  : Waktu konvergensi rute (detik) dan persentase packet loss (%)
+  Metrik       : Rata-rata waktu konvergensi (Convergence Time) dan Packet Loss Rate
+  Dataset      : Dataset rekam jejak lalu lintas global publik (RIPE Atlas & Route Views)
+  Baseline     : 1. BGP Route-Reflector standar berbasis statistik historis
+                 2. Model Prediktif LSTM untuk Traffic Engineering murni
 
 Quality Check RQ:
-  [ ] Variabel spesifik
-  [ ] Metrik jelas
-  [ ] Baseline ada
-  [ ] Konteks disebutkan
-  [ ] Memerlukan eksperimen (bukan hanya survei literatur)
+  [X] Variabel spesifik
+  [X] Metrik jelas
+  [X] Baseline ada
+  [X] Konteks disebutkan
+  [X] Memerlukan eksperimen (bukan hanya survei literatur)
 
 Contribution Statement:
-  Apa yang baru diketahui : ____________________
-  Jenis kontribusi        : [ ] Improvement  [ ] Comparison  [ ] Novel approach
-  Gap yang diisi          : ____________________
+  Apa yang baru diketahui : Karakteristik performa, efisiensi konvergensi, dan tingkat reliabilitas paket data dari metode hibrida yang menggabungkan kecerdasan prediktif runtun waktu dengan mesin eksekusi perangkat keras BGP konvensional tanpa memerlukan arsitektur SDN terpusat.
+  Jenis kontribusi        : [X] Improvement  [ ] Comparison  [X] Novel approach
+  Gap yang diisi          : Menyelesaikan dilema tingginya biaya overhead komputasi algoritma kecerdasan buatan pada tabel skala besar serta meniadakan ketergantungan terhadap penggantian perangkat keras fisik ke ekosistem SDN terprogram penuh.
 
 Hypothesis Pair:
-  H₀ : ____________________
-  H₁ : ____________________
-  Threshold              : ____________________
-  Justifikasi threshold  : ____________________
-```
+  H₀ : Tidak ada penurunan rata-rata waktu konvergensi rute inter-domain dan persentase packet loss yang signifikan secara statistik antara penggunaan arsitektur Hybrid LSTM-BGP dengan model BGP standar atau LSTM murni pada dataset RIPE Atlas.
+  H₁ : Penggunaan arsitektur Hybrid LSTM-BGP menghasilkan penurunan rata-rata waktu konvergensi rute inter-domain sebesar minimal 15% dan penurunan packet loss yang signifikan secara statistik dibandingkan model BGP standar dan LSTM murni pada dataset RIPE Atlas.
+  Threshold              : Tingkat signifikansi statistik alpha (α) = 0.05, dengan batas efek perbaikan fungsional minimal 15% pada parameter waktu konvergensi rute.
+  Justifikasi threshold  : Nilai alpha 0.05 merupakan ambang batas standar pengujian hipotesis statistik di bidang ilmu komputer untuk menolak probabilitas kebetulan, sedangkan batas efisiensi perbaikan 15% adalah ambang batas minimal yang bernilai praktis agar pengurangan delay dapat dirasakan pada pengiriman paket data berskala internet global.
 
----
+Dari Gap ke RQ
+Gap dari WS-03:
 
-## Latihan 1 — Dari Gap ke RQ
+  
 
-Gunakan gap yang ditemukan di WS-03. Transformasikan menjadi Research Question.
 
-**Gap dari WS-03:** ____________________________________
+Tingginya beban komputasi penentuan rute global pada metode berbasis AI murni, serta tingginya biaya finansial migrasi infrastruktur fisik jika menggunakan pendekatan SDN penuh.  
 
-**RQ versi pertama (tulis bebas):**
-> ___________________________________________________
+RQ versi pertama:
 
-**Evaluasi RQ:**
+Bagaimana performa arsitektur Hybrid LSTM-BGP dalam mempercepat konvergensi routing internet dan mengurangi kemacetan jaringan dibandingkan dengan metode biasa?
 
-| Komponen | Ada? | Isi |
-|----------|------|-----|
-| Metode spesifik | *Contoh: Ya — CNN vs RF* | |
-| Metrik terukur | | |
-| Baseline | | |
-| Dataset/konteks | | |
+Komponen,Ada?,Isi
+Metode spesifik,Ya,Hybrid LSTM-BGP
+Metrik terukur,Tidak,"Masih menggunakan istilah abstrak ""performa"", ""mempercepat"", ""mengurangi kemacetan"""
+Baseline,Tidak,"Hanya menyebutkan ""metode biasa"" secara umum tanpa definisi operasional"
+Dataset/konteks,Tidak,Belum mencantumkan dataset uji atau domain infrastruktur yang digunakan
 
-**Tipe RQ:** [ ] Comparison / [ ] Improvement / [ ] Exploratory
+Tipe RQ: [X] Comparison / [X] Improvement / [ ] Exploratory
 
-**RQ versi revisi (setelah evaluasi):**
-> ___________________________________________________
+RQ versi resmi (setelah evaluasi):
 
----
+Apakah integrasi arsitektur Hybrid LSTM-BGP pada router konvensional mampu menghasilkan waktu konvergensi rute inter-domain yang lebih cepat dan packet loss yang lebih rendah dibandingkan dengan protokol BGP standar dan model prediktif LSTM murni pada dataset lalu lintas publik RIPE Atlas?
 
-## Latihan 2 — Hypothesis Pair
-
+Hypothesis Pair
 Rumuskan pasangan hipotesis dari RQ di Latihan 1.
+Komponen,Isi
+H₀,Tidak ada penurunan rata-rata waktu konvergensi rute inter-domain dan persentase packet loss yang signifikan secara statistik antara penggunaan arsitektur Hybrid LSTM-BGP dengan model BGP standar atau LSTM murni pada dataset RIPE Atlas.
+H₁,Penggunaan arsitektur Hybrid LSTM-BGP menghasilkan penurunan rata-rata waktu konvergensi rute inter-domain sebesar minimal 15% dan penurunan packet loss yang signifikan secara statistik dibandingkan model BGP standar dan LSTM murni pada dataset RIPE Atlas.
+Metrik,Convergence Time (detik) dan Packet Loss Rate (%)
+Threshold,"p-value<0.05 untuk signifikansi statistik, dan ≥15% perbaikan fungsional untuk Convergence Time."
+Justifikasi threshold,"Tingkat signifikansi 5% meminimalkan risiko kesalahan Tipe I (false positive), sementara margin fungsional 15% diperlukan untuk mengompensasi beban komputasi tambahan (overhead) dari modul LSTM pada memori router."
 
-| Komponen | Isi |
-|----------|-----|
-| H₀ | *Contoh: Tidak ada perbedaan signifikan F1-Score antara CNN dan RF pada dataset CIC-MalMem-2022* |
-| H₁ | |
-| Metrik | |
-| Threshold | |
-| Justifikasi threshold | |
+Apakah hipotesis ini falsifiable? [X] Ya / [ ] TidakBagaimana cara membuktikannya salah? Hipotesis alternatif ($H_1$) dinyatakan salah jika setelah pengujian statistik (seperti t-test atau ANOVA), nilai signifikansi $p\text{-value}$ menunjukkan angka $\ge 0.05$, atau jika waktu konvergensi yang dihasilkan oleh modul Hybrid LSTM-BGP ternyata memiliki selisih perbaikan di bawah 15% dari baseline, atau bahkan memperlambat jaringan.
 
-**Apakah hipotesis ini falsifiable?** [ ] Ya / [ ] Tidak
-> Bagaimana cara membuktikannya salah? ___________________
-
----
-
-## Latihan 3 — Rantai Operasionalisasi
-
+Rantai Operasionalisasi
 Lengkapi rantai dari RQ hingga metode analisis.
 
-| Tahap | Isi |
-|-------|-----|
-| RQ | *Contoh: Apakah CNN menghasilkan F1-Score lebih tinggi dari RF...* |
-| Variable (IV) | *Contoh: Jenis algoritma (CNN vs RF)* |
-| Variable (DV) | |
-| Metric | |
-| Data source | |
-| Analysis method | |
+Tahap,Isi
+RQ,Apakah integrasi arsitektur Hybrid LSTM-BGP pada router konvensional mampu menghasilkan waktu konvergensi rute inter-domain yang lebih cepat dan packet loss yang lebih rendah dibandingkan dengan protokol BGP standar dan model prediktif LSTM murni pada dataset lalu lintas publik RIPE Atlas?
+Variable (IV),"Arsitektur manajemen lalu lintas routing jaringan: 1. BGP Standar, 2. LSTM Murni, 3. Hybrid LSTM-BGP."
+Variable (DV),Performa stabilitas dan kecepatan transmisi data jaringan komputer.
+Metric,1. Convergence Time (durasi pembaruan tabel routing dalam satuan detik).2. Packet Loss Rate (persentase paket hilang terhadap total paket dikirim).
+Data source,Rekam jejak telemetri trafik publik dari repositori RIPE Atlas Anchors dan tabel routing global dari Route Views BGP Archive.
+Analysis method,Pengujian hipotesis komparatif menggunakan analisis varians parameter (One-Way ANOVA) diikuti dengan uji lanjut Post-Hoc Tukey HSD untuk menentukan signifikansi perbedaan antar kelompok metode.
+Apakah rantai lengkap? [X] Ya / [ ] Tidak
 
-**Apakah rantai lengkap?** [ ] Ya / [ ] Tidak
-> Jika tidak, tahap mana yang perlu direvisi? ______________
+Jika tidak, tahap mana yang perlu direvisi? Rantai operasionalisasi telah lengkap karena setiap entitas abstrak di dalam pertanyaan penelitian telah diturunkan menjadi instrumen, variabel, unit ukur fisik, sumber data konkrit, serta alat uji statistik yang bersesuaian.
+Refleksi
+Judul:
 
----
+BGP Route Optimization on Edge Routers Using Time-Series Predictive Models for Inter-Domain Congestion Control.
 
-## Refleksi
+RQ yang diekstrak:
 
-> Ambil satu judul skripsi/paper yang pernah dibaca. Coba ekstrak RQ-nya. Apakah RQ tersebut memenuhi semua komponen (metode, metrik, baseline, konteks)? Jika tidak, apa yang hilang?
+Bagaimana model deret waktu dapat diaplikasikan pada router tepi (edge) untuk mengoptimalkan rute BGP dan mengatasi kemacetan inter-domain?
 
-**Judul:** _____________________________________________
-**RQ yang diekstrak:** __________________________________
-**Komponen yang hilang:** _______________________________
+Komponen yang hilang:
+
+Pertanyaan penelitian asli di dalam paper tersebut tidak memuat komponen metrik evaluasi yang spesifik (tidak menyebutkan apakah mengukur latensi, throughput, atau waktu konvergensi), tidak mendefinisikan baseline pembanding yang jujur untuk mengukur tingkat keberhasilan sistem, serta tidak mencantumkan karakteristik batasan lingkungan atau dataset spesifik tempat pengujian dilakukan.
