@@ -1,4 +1,4 @@
-# WS-12: Result Presentation & Visualization
+  # WS-12: Result Presentation & Visualization
 
 > **Bab 12 — Penyajian Hasil & Visualisasi**
 
@@ -143,3 +143,73 @@ Evaluasi visualisasi berikut untuk bias (skenario dari contoh):
 
 > ___________________________________________________
 > ___________________________________________________
+# WS-12: RESULT PRESENTATION & VISUALIZATION
+> Bab 12 — Penyajian Hasil & Visualisasi
+
+================================================================================
+RINGKASAN MATERI & KONTEKS PENELITIAN
+================================================================================
+Judul Penelitian : Integrasi Arsitektur Hybrid LSTM-BGP pada Router Konvensional 
+                   Untuk Akselerasi Konvergensi Rute Inter-Domain dan Reduksi Packet Loss
+Penyusun         : Nur Dini Handayani (NIM: 240202876)
+Program Studi    : S1 Informatika, Universitas Putra Bangsa
+
+Pipeline Visualisasi:
+Validated Data -> Structured Presentation -> Visualization -> Pattern Recognition -> Insight
+
+================================================================================
+LATIHAN 1 — TABEL HASIL (RESULT TABLE)
+================================================================================
+Tabel Rekapitulasi Performa Arsitektur Routing (Data Eksperimen 150 Run)
+
+| Skenario                      | Convergence Time (detik) (mean ± std) | Packet Loss Rate (%) (mean ± std) | n  |
+|-------------------------------|---------------------------------------|-----------------------------------|----|
+| Hybrid LSTM-BGP (Treatment)   | 12.35 ± 0.42                          | 1.15 ± 0.12                       | 50 |
+| LSTM Murni (Control 2)        | 18.20 ± 2.15                          | 2.85 ± 0.65                       | 50 |
+| BGP Standar (Control 1)       | 180.50 ± 15.30                        | 14.20 ± 1.80                      | 50 |
+
+Checklist Tabel:
+- [X] Self-contained (Judul dan variabel terdefinisi jelas, satuan tercantum, N=50 per kelompok)
+- [X] Mean ± std (Menampilkan tingkat variabilitas data dari 50 replikasi per skenario)
+- [X] Diurutkan berdasarkan metrik utama (Convergence Time tercepat ke terlambat)
+- [X] Format konsisten di seluruh baris data
+
+================================================================================
+LATIHAN 2 — RENCANA VISUALISASI
+================================================================================
+Perencanaan visualisasi untuk mempermudah identifikasi pola dan tren data.
+
+| # | Jenis Grafik            | Pesan Utama                                                                                | Data yang Digunakan                             |
+|---|-------------------------|--------------------------------------------------------------------------------------------|-------------------------------------------------|
+| 1 | Grouped Bar Chart +     | Membuktikan Hybrid LSTM-BGP menghasilkan Convergence Time tercepat dan Packet Loss       | Mean Convergence Time (detik) ± std dan         |
+|   | Error Bar               | terendah dibandingkan BGP Standar dan LSTM Murni.                                          | Mean Packet Loss Rate (%) ± std                 |
+| 2 | Box Plot                | Menunjukkan stabilitas dan penyebaran variabilitas Convergence Time tanpa adanya outlier  | Data mentah (50 run) Convergence Time           |
+|   |                         | ekstrem setelah dilakukan data cleaning.                                                   | per skenario                                    |
+| 3 | Line Chart (Time-Series) | Menggambarkan secara riil fluktuasi Packet Loss pada detik ke-300 saat link failure terjadi | Rekaman log per detik dari Telemetry Logger     |
+|   |                         | hingga jaringan kembali stabil (converged).                                                | selama periode konvergensi                      |
+
+================================================================================
+LATIHAN 3 — BIAS DETECTION
+================================================================================
+Evaluasi Kasus Skenario Contoh:
+Skenario: Metode A = 91.2%, Metode B = 90.8%. Bar chart dengan Y-axis mulai dari 90%.
+
+| Pertanyaan                         | Jawaban                                                                                                                         |
+|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| Apakah Y-axis menyesatkan?         | Ya, pemotongan Y-axis (truncated axis) dari angka 90% secara visual memperbesar selisih 0.4% seolah-olah Metode A 2x lebih baik. |
+| Apakah error bar ditampilkan?      | Tidak, ketidakhadiran error bar menyembunyikan variabilitas dan ketidakpastian data statistik.                                   |
+| Apakah semua kondisi ditampilkan?  | Tidak, tanpa penyajian rentang 0-100% atau data pendukung lainnya, grafik terkesan memihak (cherry-picked presentation).        |
+| Apa solusinya?                     | Memulai Y-axis dari angka 0, atau memberi tanda pemotongan sumbu (axis break) yang jelas serta menyertakan error bar.            |
+
+Evaluasi Grafik Eksperimen Mandiri (Latihan 2):
+- [X] Semua bias check lulus (Y-axis dimulai dari 0.0, Error Bar std ditampilkan, seluruh 150 data run disertakan, grafik dibuat 2D).
+- [ ] Ada yang perlu diperbaiki: Tidak ada.
+
+================================================================================
+REFLEKSI
+================================================================================
+Urgensi Kehadiran Tabel dan Grafik Secara Bersamaan:
+Tabel dan grafik memiliki peran fungsional yang saling melengkapi dalam pelaporan hasil penelitian ilmiah. Tabel memberikan presisi numerik tingkat tinggi (beserta nilai eksak mean, standar deviasi, dan ukuran sampel) yang memungkinkan replikasi ulang oleh peneliti lain. Di sisi lain, grafik memberikan gambaran pola visual, tren temporal, serta perbedaan antar kelompok secara cepat yang sulit ditangkap hanya dengan membaca deretan angka pada tabel.
+
+Pengalaman Terkait Visualisasi yang Menyesatkan:
+Visualisasi yang menyesatkan secara tidak sengaja sering terjadi akibat penggunaan fitur pemotongan skala sumbu Y (truncated Y-axis) secara otomatis oleh perangkat lunak pembuat grafik saat menangani selisih angka yang kecil. Hal ini mengakibatkan perbedaan statistik yang sebenarnya tidak signifikan secara visual terlihat sangat kontras dan dramatis, sehingga berisiko mengarahkan pembaca pada kesimpulan yang keliru.
