@@ -1,177 +1,74 @@
-# WS-15: Scientific Writing
+update    WS-15: SCIENTIFIC WRITING
+> Bab 15 — Penulisan Ilmiah
 
-> **Bab 15 — Penulisan Ilmiah**
+================================================================================
+RINGKASAN MATERI & KONTEKS PENELITIAN
+================================================================================
+Judul Penelitian : Integrasi Arsitektur Hybrid LSTM-BGP pada Router Konvensional 
+                   Untuk Akselerasi Konvergensi Rute Inter-Domain dan Reduksi Packet Loss
+Penyusun         : Nur Dini Handayani (NIM: 240202876)
+Program Studi    : S1 Informatika, Universitas Putra Bangsa
 
----
+Alur Argumen Ilmiah:
+Problem -> Gap -> RQ -> Method -> Result -> Analysis -> Conclusion -> Contribution
 
-## Ringkasan Materi
+================================================================================
+LATIHAN 1 — PAPER OUTLINE (STRUKTUR IMRAD)
+================================================================================
+Rancangan outline artikel ilmiah menggunakan struktur baku IMRAD:
 
-### Scientific Argument Flow
+| Section      | Konten Utama (2-3 kalimat)                                                                                                                                                                                | Target Kata |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+| Abstract     | Konvergensi lambat BGP konvensional memicu packet loss tinggi saat link failure. Penelitian ini mengintegrasikan model LSTM pada router konvensional untuk memprediksi rute alternatif. Hasil: convergence time turun 93% dan packet loss berkurang 91.9%. | 200 - 250   |
+| Introduction | Konteks: BGP lambat beradaptasi pada kegagalan jaringan inter-domain. Gap: Belum ada integrasi prediktor ML langsung pada data plane router konvensional. RQ: Seberapa efektif arsitektur Hybrid LSTM-BGP menurunkan waktu konvergensi dan packet loss? | 500 - 700   |
+| Related Work | Membedah pendekatan BGP timer tuning, SDN-based routing, dan machine learning routing. Menegaskan posisi penelitian pada arsitektur hybrid tanpa mengubah protokol BGP standar.                    | 700 - 1000  |
+| Method       | Menjelaskan skenario emulasi Mininet, topologi BGP, modul kolektor telemetri, serta model LSTM. Prosedur eksperimen 150 run dan uji beda statistik One-Way ANOVA dijelaskan secara terperinci.         | 800 - 1200  |
+| Results      | Menyajikan data deskriptif Convergence Time dan Packet Loss Rate dalam bentuk tabel dan grouped bar chart. Menyertakan hasil inferensial F-test dan uji post-hoc Tukey HSD tanpa interpretasi teoritis.| 500 - 800   |
+| Discussion   | Menginterpretasikan mekanisme akselerasi konvergensi akibat prediksi rute dini. Membandingkan temuan dengan penelitian sebelumnya dan melakukan failure analysis pada kondisi fluktuasi ekstrem.         | 600 - 900   |
+| Conclusion   | Memverifikasi jawaban RQ, menyimpulkan kontribusi arsitektur Hybrid LSTM-BGP, dan merumuskan saran pengujian lapangan pada Internet Exchange Point (IXP) sebagai future work.                        | 200 - 400   |
 
-```
-Problem → Gap → RQ → Method → Result → Analysis → Conclusion → Contribution
-```
+================================================================================
+LATIHAN 2 — CONSISTENCY MATRIX
+================================================================================
+Matriks konsistensi internal untuk memverifikasi alur logis antar-bagian paper:
 
-Paper ilmiah adalah **satu argumen utuh** dari masalah ke kontribusi. Setiap node harus terhubung logis ke node sebelum dan sesudahnya.
+| Elemen             | Intro | Method | Result | Discussion | Conclusion |
+|--------------------|-------|--------|--------|------------|------------|
+| RQ1 (Convergence)  |   ✓   |   ✓    |   ✓    |     ✓      |     ✓      |
+| RQ2 (Packet Loss)  |   ✓   |   ✓    |   ✓    |     ✓      |     ✓      |
+| Metrik Utama       |   ✓   |   ✓    |   ✓    |     ✓      |     ✓      |
+| Variabel IV        |   ✓   |   ✓    |   ✓    |     ✓      |     ✓      |
+| Variabel DV        |   ✓   |   ✓    |   ✓    |     ✓      |     ✓      |
+| Klaim/Kontribusi   |   ✓   |   ✓    |   ✓    |     ✓      |     ✓      |
 
-### Struktur IMRAD
+Keterangan: ✓ (ada & konsisten), ✗ (missing), ~ (ada tapi inkonsisten)
 
-| Section | Peran | Pertanyaan Kunci |
-|---------|-------|-----------------|
-| **Introduction** | Motivasi + frame | Why is this needed? |
-| **Method** | Deskripsi (reproducible) | How was it done? |
-| **Results** | Laporan objektif | What was found? |
-| **Discussion** | Interpretasi + refleksi | What does it mean? |
-| **Conclusion** | Ringkasan + kontribusi | So what? |
+Inkonsistensi yang ditemukan:
+Tidak ditemukan adanya inkonsistensi substantif. Variabel bebas (arsitektur routing) dan variabel terikat (Convergence Time, Packet Loss Rate) terpeta secara konsisten dari pendahuluan hingga kesimpulan.
 
-### Logical Flow — "Red Thread"
+Tindakan perbaikan:
+Meningkatkan konsistensi penamaan istilah teknis agar seragam di seluruh bab, seperti penggunaan istilah "Hybrid LSTM-BGP" secara konsisten dan tidak berganti menjadi "LSTM-Routing".
 
-Setiap paragraf menjawab satu pertanyaan dan memicu pertanyaan berikutnya. Alur logis ini harus terasa di tiga level:
-1. **Antar-kalimat** dalam paragraf
-2. **Antar-paragraf** dalam section
-3. **Antar-section** dalam paper
+================================================================================
+LATIHAN 3 — WRITING QUALITY CHECK
+================================================================================
+Paragraf Asli (Format Awal):
+"Sistem routing BGP yang baru ini sangat bagus karena bisa membuat performa jaringan meningkat dengan cepat. Ketika ada masalah putus jalur, algoritma LSTM langsung bekerja memprediksi jalan lain sehingga packet loss tidak banyak terjadi dan jaringan kembali normal dengan sangat cepat dibandingkan BGP biasa."
 
-### Internal Consistency
+| Kriteria    | Evaluasi                                                                                                            | Perbaikan                                                                                                                    |
+|-------------|---------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| Clarity     | Kalimat pertama sangat kabur; istilah "sangat bagus" dan "performa" tidak menggambarkan metrik yang diukur.          | Mengganti "sangat bagus" dengan deskripsi kuantitaf "menurunkan waktu konvergensi sebesar 93.1%".                           |
+| Precision   | Istilah "jalan lain", "tidak banyak", dan "sangat cepat" bersifat subjektif dan tidak presisi secara ilmiah.       | Mengganti dengan istilah teknis eksak seperti "rute alternatif", "reduksi packet loss hingga 1.15%", dan "12.35 detik".    |
+| Conciseness | Terdapat kata-kata pemborosan (filler words) yang tidak menambah makna substantif.                                  | Mengeliminasi frasa berulang dan merangkai kalimat dengan struktur sebab-akibat yang padat.                                |
 
-Setiap elemen yang dijanjikan di Introduction harus hadir di Discussion/Conclusion.
+Paragraf Setelah Perbaikan:
+"Integrasi arsitektur Hybrid LSTM-BGP terbukti mengakselerasi konvergensi rute inter-domain hingga mencapai rata-rata 12.35 ± 0.42 detik saat terjadi link failure, jauh lebih cepat dibandingkan BGP konvensional (180.50 ± 15.30 detik). Prediksi rute alternatif yang dilakukan secara proaktif oleh modul LSTM berhasil mereduksi Packet Loss Rate hingga ke tingkat 1.15 ± 0.12%, sehingga menjaga kontinuitas aliran data jaringan secara signifikan."
 
-**Consistency Matrix:**
-```
-           Intro  Method  Result  Discuss  Conclude
-RQ1          ✓      ✓       ✓       ✓        ✓
-RQ2          ✓      ✓       ✓       ✗ ←      ✓
-Metrik-X     ✗      ✗       ✓ ←     ✗        ✗
-```
-**Masalah:** RQ2 dibahas di semua bagian kecuali Discussion. Metrik-X muncul di Result tapi tidak diperkenalkan di Method.
+================================================================================
+REFLEKSI
+================================================================================
+Perbedaan Menulis "Tentang" Riset vs Menulis "Argumen" Riset:
+Menulis "tentang" riset hanya memaparkan kronologi kegiatan dan deretan angka secara pasif tanpa arah pembuktian. Sebaliknya, menulis sebagai "argumen" riset adalah membangun rantai penalaran logis berbasis bukti empiris yang menghubungkan masalah, celah literatur (gap), metodologi, hingga klaim kontribusi untuk meyakinkan pembaca atas validitas ilmiah temuan tersebut.
 
-### Writing Quality Triad
-
-| Kualitas | Deskripsi | Contoh Buruk → Baik |
-|----------|----------|---------------------|
-| **Clarity** | Dipahami sekali baca | "Performa meningkat" → "Accuracy meningkat dari 85.3% ke 89.7%" |
-| **Precision** | Istilah eksak, tanpa ambiguitas | "signifikan" → "signifikan secara statistik (p=0.003, d=1.2)" |
-| **Conciseness** | Setiap kata menambah informasi | Hapus kalimat redundan, filler words |
-
-### Urutan Penulisan yang Disarankan
-
-1. **Method & Results** — paling stabil, tulis pertama
-2. **Discussion** — interpretasi berdasarkan hasil
-3. **Introduction** — frame sesuai temuan aktual
-4. **Abstract & Conclusion** — terakhir
-
-### Target Jumlah Kata
-
-| Section | Target |
-|---------|--------|
-| Introduction | 500–700 |
-| Related Work | 700–1000 |
-| Method | 800–1200 |
-| Results | 500–800 |
-| Discussion | 600–900 |
-| Conclusion | 200–400 |
-
-### Jebakan Kognitif
-
-1. "Lebih panjang = lebih lengkap" → conciseness lebih berharga
-2. "Introduction harus ditulis pertama" → justru ditulis terakhir
-3. "Jargon teknis = lebih ilmiah" → clarity lebih penting
-4. "Discussion = ringkasan Results" → Discussion = interpretasi + konteks
-
----
-
-## Template A.15 — Paper Structure Checklist
-
-```
-PAPER STRUCTURE CHECKLIST
-
-Title   : ____________________
-Target  : [ ] Jurnal  [ ] Konferensi  [ ] Laporan
-
-Section Check:
-  [ ] Abstract — masalah, metode, hasil utama, kontribusi (max 250 kata)
-  [ ] Introduction — konteks → gap → RQ → kontribusi → struktur paper
-  [ ] Related Work — concept-centric, gap positioning
-  [ ] Method — reproducible: desain, variabel, metrik, setup, prosedur
-  [ ] Results — tabel + grafik + observasi (tanpa interpretasi)
-  [ ] Discussion — interpretasi, perbandingan, implikasi, limitation
-  [ ] Conclusion — jawaban RQ, kontribusi, future work
-
-Consistency Matrix:
-  [ ] RQ di Introduction = RQ di Method = RQ di Conclusion
-  [ ] Variabel di Method = variabel di Results
-  [ ] Klaim di Discussion didukung data di Results
-  [ ] Limitasi di Discussion di-address di Conclusion/Future Work
-
-Writing Quality:
-  [ ] Clarity — mudah dipahami tanpa re-read
-  [ ] Precision — tidak ada istilah ambigu
-  [ ] Conciseness — tidak ada kalimat redundan
-```
-
----
-
-## Latihan 1 — Paper Outline
-
-Buat outline paper untuk riset Anda menggunakan struktur IMRAD.
-
-| Section | Konten Utama (2-3 kalimat) | Target Kata |
-|---------|---------------------------|------------|
-| Abstract | *Contoh: Sistem rekomendasi memiliki akurasi tinggi tapi satisfaction rendah. Studi ini menguji CF+context signal. Hasil: satisfaction naik 38% tanpa penurunan RMSE signifikan.* | 200-250 |
-| Introduction | *Contoh: Konteks: gap antara akurasi dan kepuasan pengguna. Gap: tidak ada studi yang mengkombinasikan CF+context. RQ: apakah CF+context meningkatkan satisfaction?* | 500-700 |
-| Related Work | | 700-1000 |
-| Method | | 800-1200 |
-| Results | | 500-800 |
-| Discussion | | 600-900 |
-| Conclusion | | 200-400 |
-
----
-
-## Latihan 2 — Consistency Matrix
-
-Buat consistency matrix untuk memverifikasi internal consistency paper Anda.
-
-|  | Intro | Method | Result | Discussion | Conclusion |
-|--|-------|--------|--------|-----------|-----------|
-| *Contoh: RQ1* | *✓* | *✓* | *✓* | *✓* | *✓* |
-| *Contoh: Metrik-X* | *✗ ←* | *✗ ←* | *✓* | *✗ ←* | *✗ ←* |
-| RQ1 | | | | | |
-| RQ2 | | | | | |
-| Metrik utama | | | | | |
-| Variabel IV | | | | | |
-| Variabel DV | | | | | |
-| Klaim/kontribusi | | | | | |
-
-**Isi setiap sel:** ✓ (ada & konsisten), ✗ (missing), ~ (ada tapi inkonsisten)
-
-**Inkonsistensi yang ditemukan:**
-> ___________________________________________________
-
-**Tindakan perbaikan:**
-> ___________________________________________________
-
----
-
-## Latihan 3 — Writing Quality Check
-
-Ambil satu paragraf dari tulisan Anda (atau tulis paragraf baru) dan evaluasi kualitasnya.
-
-**Paragraf asli:**
-> (tempel paragraf Anda di sini)
-
-| Kriteria | Evaluasi | Perbaikan |
-|----------|---------|-----------|
-| Clarity | *Contoh: kalimat ke-3 ambigu — "performa" bisa berarti accuracy atau speed* | *Ubah menjadi: "accuracy meningkat..."* |
-| Precision | | |
-| Conciseness | | |
-
-**Paragraf setelah perbaikan:**
-> (tulis paragraf yang sudah diperbaiki)
-
----
-
-## Refleksi
-
-> Apa perbedaan antara menulis "tentang" riset dan menulis sebagai "argumen" riset? Bagaimana urutan penulisan (Method → Discussion → Introduction) mengubah kualitas tulisan?
-
-> ___________________________________________________
-> ___________________________________________________
+Dampak Urutan Penulisan (Method -> Discussion -> Introduction) Terhadap Kualitas Tulisan:
+Urutan penulisan yang dimulai dari Method dan Results memastikan bahwa narasi didasarkan pada fakta data yang stabil. Penulisan Discussion dan Introduction setelahnya mencegah bias konfirmasi, sehingga pemformatan bingkai teori (framing) pada Introduction dan klaim pada Conclusion berjalan realistis dan selaras dengan bukti objektif yang diperoleh.   
