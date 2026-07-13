@@ -160,3 +160,92 @@ Rencanakan bagaimana menangani anomali. Untuk setiap jenis, tentukan langkah yan
 > ___________________________________________________
 **Yang akan dilakukan berbeda:**
 > ___________________________________________________
+# WS-10: EXPERIMENT EXECUTION & DATA COLLECTION
+> Bab 10 — Eksekusi Eksperimen & Pengumpulan Data
+
+================================================================================
+RINGKASAN MATERI & KONTEKS PENELITIAN
+================================================================================
+Judul Penelitian : Integrasi Arsitektur Hybrid LSTM-BGP pada Router Konvensional 
+                   Untuk Akselerasi Konvergensi Rute Inter-Domain dan Reduksi Packet Loss
+Penyusun         : Nur Dini Handayani (NIM: 240202876)
+Program Studi    : S1 Informatika, Universitas Putra Bangsa
+
+Pipeline Eksperimen:
+Design -> Execution Plan -> Controlled Execution -> Data Collection -> Data Logging -> Dataset for Analysis
+
+================================================================================
+LATIHAN 1 — EXECUTION PLAN
+================================================================================
+Rencana eksekusi eksperimen menggunakan 3 skenario (variabel independen) dengan 
+50 replikasi (run) per skenario untuk memenuhi kriteria statistik inferensial (ANOVA/Tukey HSD).
+
+| Run #  | Skenario                      | Seed | Parameter Kunci                  | Status  |
+|--------|-------------------------------|------|----------------------------------|---------|
+| 1      | BGP Standar (Control 1)       | 42   | Prefixes=100k, Traffic=1Gbps     | Planned |
+| 2      | BGP Standar (Control 1)       | 123  | Prefixes=100k, Traffic=1Gbps     | Planned |
+| 3      | LSTM Murni (Control 2)        | 42   | Prefixes=100k, Traffic=1Gbps     | Planned |
+| 4      | LSTM Murni (Control 2)        | 123  | Prefixes=100k, Traffic=1Gbps     | Planned |
+| 5      | Hybrid LSTM-BGP (Treatment)   | 42   | Prefixes=100k, Traffic=1Gbps     | Planned |
+| 6      | Hybrid LSTM-BGP (Treatment)   | 123  | Prefixes=100k, Traffic=1Gbps     | Planned |
+| ...    | ... (lanjutan hingga run 150) | ...  | ...                              | Planned |
+
+Total skenario       : 3 (BGP Standar, LSTM Murni, Hybrid LSTM-BGP)
+Run per skenario     : 50
+Total run keseluruhan: 150
+
+================================================================================
+LATIHAN 2 — DATA LOG TERSTRUKTUR
+================================================================================
+Desain format log data yang dicatat secara otomatis untuk setiap run eksperimen.
+
+1. IDENTITAS
+   - Run ID      : run-hybrid-001
+   - Timestamp   : 2026-05-20T14:00:00
+   - Node/AS ID  : AS-Node-50
+
+2. KONFIGURASI
+   - Seed           : 42
+   - Code Version   : commit f7d2a8b
+   - Skenario       : Hybrid_LSTM_BGP
+   - Topologi       : 50 AS Nodes, 100k Prefixes
+   - Resource Limit : 2GB RAM, 1 Core CPU (cgroups)
+
+3. HASIL (METRIK)
+   - Convergence Time : Float (detik)   | Range: > 0.0
+   - Packet Loss Rate : Float (%)       | Range: 0.0 – 100.0
+   - CPU Usage        : Float (%)       | Range: 0.0 – 100.0
+   - RAM Usage        : Float (MB)      | Range: 0.0 – 2000.0
+
+Format Output: [X] CSV / [ ] JSON / [ ] Database
+
+================================================================================
+LATIHAN 3 — ANOMALY PROTOCOL
+================================================================================
+Prinsip: Detect -> Investigate -> Document -> Decide
+
+| Jenis Anomali                | Contoh                                         | Tindakan                                                                                                               |
+|------------------------------|------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| Run gagal (crash)            | Container Docker OOM/Exit unexpected           | Catat log error, periksa cgroups limit, bersihkan container residual, re-run dengan seed sama, dokumentasikan error.  |
+| Hasil ekstrem                | Convergence time > 300s / Packet loss 100%     | Isolasi log PCAP, periksa routing loop, tandai sebagai outlier/DNF, jangan hapus data tanpa analisis kausal.           |
+| Waktu eksekusi anomali       | Host CPU throttling / Latency spike (Mininet)  | Periksa resource usage host machine, buang data jika terbukti ada interference host execution latency, lalu re-run.     |
+| Inkonsistensi run lain       | Variance menyimpang tinggi pada seed tertentu  | Uji distribusi (Shapiro-Wilk), verifikasi keacakan paket generator, lakukan investigasi state awal routing table.      |
+
+================================================================================
+REFLEKSI
+================================================================================
+Pernahkah Anda melaporkan hasil riset/tugas dari single run? Apa risikonya? 
+Bagaimana multiple run mengubah kepercayaan terhadap hasil?
+
+[Pengalaman Sebelumnya]
+Pada pengerjaan tugas atau eksperimen awal, sering kali pengujian hanya dilakukan 
+satu kali (single run) karena keterbatasan waktu eksekusi dan anggapan bahwa 
+simulasi/komputasi bersifat deterministik.
+
+[Yang Akan Dilakukan Berbeda]
+Menggunakan single run sangat berisiko memunculkan kesimpulan palsu (false positive/negative) 
+akibat fluktuasi statistik, inisialisasi bobot acak pada model LSTM, maupun host execution 
+latency pada emulator. Dengan menjalankan 50 replikasi per skenario (total 150 run) 
+menggunakan predetermined seed, data memiliki variabilitas yang cukup untuk diuji secara 
+statistik inferensial (ANOVA dan Post-Hoc Tukey HSD). Hal ini memberikan tingkat kepercayaan 
+(alpha = 0.05) yang valid untuk membuktikan hipotesis akselerasi konvergensi dan reduksi packet loss.
