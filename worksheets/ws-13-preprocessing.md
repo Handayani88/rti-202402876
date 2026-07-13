@@ -1,162 +1,73 @@
-# WS-13: Data Preprocessing
+tugas    # WS-13: DATA PREPROCESSING
+> Bab 13 — Preprocessing & Persiapan Data untuk Analisis
 
-> **Bab 13 — Preprocessing & Persiapan Data untuk Analisis**
+================================================================================
+RINGKASAN MATERI & KONTEKS PENELITIAN
+================================================================================
+Judul Penelitian : Integrasi Arsitektur Hybrid LSTM-BGP pada Router Konvensional 
+                   Untuk Akselerasi Konvergensi Rute Inter-Domain dan Reduksi Packet Loss
+Penyusun         : Nur Dini Handayani (NIM: 240202876)
+Program Studi    : S1 Informatika, Universitas Putra Bangsa
 
----
+Pipeline Preprocessing:
+Raw Telemetry Data -> Cleaning -> Transformation -> Normalization -> Processed Data -> Analysis Ready
 
-## Ringkasan Materi
+================================================================================
+LATIHAN 1 — CLEANING PLAN
+================================================================================
+Pemeriksaan dan dokumentasi penanganan masalah data pada dataset telemetri hasil emulasi:
 
-### Data Refinement Pipeline
+| Masalah                           | Jumlah Kasus         | Penanganan          | Justifikasi                                                                                                                         |
+|-----------------------------------|----------------------|---------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| Missing Value (Container OOM)     | 2 dari 150 (1.33%)   | Listwise Deletion & | Jumlah data missing < 5% (MCAR). Dilakukan re-run khusus dengan seed sama untuk menjaga kelengkapan sampel replikasi (n=50/skenario). |
+|                                   |                      | Re-run              |                                                                                                                                     |
+| Outlier Eksrem (Host CPU Latency) | 1 dari 150 (0.67%)   | Exclude & Re-run    | Data disebabkan oleh interferensi eksternal mesin induk (host latency spike), bukan merupakan karakteristik alami algoritma.      |
+| Duplikasi Log Timestamp           | 0 kasus (0.00%)      | Verifikasi          | Tidak ditemukan duplikasi stempel waktu pada pembacaan file PCAP Wireshark.                                                          |
 
-```
-Raw Data → Cleaning → Transformation → Normalization → Processed Data → Analysis Ready
-```
+Jumlah data sebelum cleaning : 150 records
+Jumlah data setelah cleaning : 150 records (setelah eksekusi ulang 3 run)
+Persentase data yang hilang/berubah : 2.00% (3 dari 150 data point)
 
-Setiap tahap memiliki tujuan berbeda. **Preprocessing bukan langkah teknis biasa** — setiap keputusan preprocessing adalah keputusan riset yang bisa mengubah kesimpulan.
+================================================================================
+LATIHAN 2 — NORMALISASI DECISION
+================================================================================
+Penentuan kebutuhan dan metode normalisasi untuk variabel metrik eksperimen:
 
-### Empat Prinsip Preprocessing
+| Variabel                 | Range Asli     | Distribusi  | Outlier? | Metode Normalisasi | Alasan                                                                                                    |
+|--------------------------|----------------|-------------|----------|--------------------|-----------------------------------------------------------------------------------------------------------|
+| Convergence Time (detik) | 11.2 – 198.5s  | Skewed      | Tidak    | Tidak Perlu        | Nilai rasio fisik aktual yang akan diuji secara komparatif menggunakan One-Way ANOVA. Skala asli dibutuhkan.|
+| Packet Loss Rate (%)     | 0.9% – 16.5%   | Skewed      | Tidak    | Tidak Perlu        | Nilai persentase fisik baku (0-100%). Konversi skala tidak diperlukan untuk pengujian komparatif.          |
+| Feature Input LSTM       | 0 – 100.0 Gbps | Continuous  | Ada      | Min-Max Scaling    | Dibutuhkan untuk stabilisasi proses training jaringan saraf tiruan (LSTM) dalam rentang [0, 1].          |
 
-| Prinsip | Deskripsi |
-|---------|----------|
-| **Consistency** | Metode sama untuk data yang sama |
-| **Transparency** | Setiap langkah terdokumentasi |
-| **Reproducibility** | Orang lain bisa mengulang dengan hasil sama |
-| **Minimal Distortion** | Ubah sesedikit mungkin; jika normalisasi tidak perlu, jangan lakukan |
-
-### Cleaning Triad
-
-| Masalah | Strategi | Risiko |
-|---------|---------|--------|
-| **Missing values** | | |
-| — Listwise deletion | Missing < 5%, random | Data loss |
-| — Mean/median imputation | Sedikit missing, dist. normal | Mengurangi variabilitas |
-| — Model-based imputation | Banyak missing, pola sistematis | Introduces dependency |
-| — Flag & separate | Missing karena alasan substantif | Kompleksitas analisis |
-| **Duplikat** | Identifikasi → verifikasi → hapus | False positive (data mirip ≠ duplikat) |
-| **Error format** | Standardisasi tipe, encoding | Kehilangan informasi saat konversi |
-
-### Normalisasi — Kapan & Metode Mana
-
-| Metode | Formula | Output | Sensitif Outlier? |
-|--------|---------|--------|-------------------|
-| Min-max | (x-min)/(max-min) | [0, 1] | Ya |
-| Z-score | (x-mean)/std | Unbounded | Lebih robust |
-| Robust scaling | (x-median)/IQR | Unbounded | Paling robust |
-
-**Kunci:** Parameter normalisasi harus dihitung dari **training set saja** — bukan seluruh data. Pelanggaran = **data leakage**.
-
-### Data Leakage Prevention
-
-Data leakage terjadi ketika informasi dari test set "bocor" ke preprocessing:
-- Normalisasi parameter dari seluruh dataset ← **SALAH**
-- Cross-validation dilakukan sebelum split ← **SALAH**
-- Feature selection menggunakan label test set ← **SALAH**
-
-### Jebakan Kognitif
-
-1. "Preprocessing cuma teknis — tidak perlu detail" → bisa ubah kesimpulan
-2. "Lebih banyak preprocessing = lebih bersih = lebih baik" → over-processing distorsi data
-3. "Normalisasi selalu diperlukan" → belum tentu, tergantung metode analisis
-4. "Imputation sama untuk semua situasi" → strategi harus sesuai konteks
-
----
-
-## Template A.13 — Preprocessing Documentation Log
-
-```
-PREPROCESSING LOG
-
-Dataset           : ____________________
-Jumlah data awal  : ____________________
-
-Cleaning:
-| Masalah | Jumlah Kasus | Penanganan | Justifikasi |
-|---------|-------------|------------|-------------|
-| Missing |             |            |             |
-| Duplikat|             |            |             |
-| Error   |             |            |             |
-
-Transformation:
-| Transformasi | Variabel | Detail | Alasan |
-|-------------|----------|--------|--------|
-|             |          |        |        |
-
-Normalization:
-  Metode    : ____________________
-  Alasan    : ____________________
-  Parameter : (dihitung dari: training set / seluruh data)
+Apakah normalisasi diperlukan? [X] Ya (untuk sub-sistem LSTM) / [X] Tidak (untuk data akhir pengujian ANOVA)
+Justifikasi:
+Normalisasi Min-Max diterapkan khusus pada fitur input data telemetri historis (RIPE Atlas/Route Views) sebelum dilatih pada model prediktif LSTM guna mencegah vanishing/exploding gradient. Sebaliknya, variabel dependen akhir (Convergence Time dan Packet Loss Rate) tetap mempertahankan skala asli (rasio/persentase) untuk menjaga interpretabilitas langsung dan pemenuhan asumsi ANOVA.
 
 Leakage Check:
-  [ ] Parameter normalisasi dari training set saja
-  [ ] Tidak ada informasi test set dalam preprocessing
-  [ ] Cross-validation dilakukan setelah split
+- [X] Parameter Min-Max scaling (min dan max) dihitung dari training set telemetri saja.
+- [X] Normalisasi diterapkan secara terpisah setelah train-test split data historis.
 
-Jumlah data akhir : ____________________
-Script tersedia   : [ ] Ya → path: ____ | [ ] Belum
-```
-
----
-
-## Latihan 1 — Cleaning Plan
-
-Periksa dataset Anda (atau dataset contoh) dan dokumentasikan masalah yang ditemukan.
-
-| Masalah | Jumlah Kasus | Penanganan | Justifikasi |
-|---------|-------------|------------|-------------|
-| *Contoh: Missing di kolom "label"* | *12 dari 500 (2.4%)* | *Listwise deletion* | *< 5%, distribusi random (MCAR)* |
-| | | | |
-| | | | |
-| | | | |
-
-**Jumlah data sebelum cleaning:** ____
-**Jumlah data setelah cleaning:** ____
-**Persentase data yang hilang/berubah:** ____%
-
----
-
-## Latihan 2 — Normalisasi Decision
-
-Tentukan apakah data Anda perlu normalisasi, dan jika ya, metode apa yang tepat.
-
-| Variabel | Range Asli | Distribusi | Outlier? | Metode Normalisasi | Alasan |
-|----------|-----------|-----------|----------|-------------------|--------|
-| *Contoh: response_time* | *0.1 – 45.2s* | *Right-skewed* | *Ya (45.2s)* | *Robust scaling* | *Ada outlier, perlu robust* || *Contoh: accuracy_score* | *0.72 – 0.95* | *Normal, narrow* | *Tidak* | *Tidak perlu* | *Sudah dalam [0,1], metode berbasis distance tidak digunakan* || | | | | | |
-| | | | | | |
-
-**Apakah normalisasi diperlukan?** [ ] Ya / [ ] Tidak
-**Justifikasi:**
-> ___________________________________________________
-
-**Leakage check:**
-- [ ] Parameter dihitung dari training set saja
-- [ ] Normalisasi diterapkan setelah train-test split
-
----
-
-## Latihan 3 — Preprocessing Report
-
-Buat ringkasan preprocessing lengkap — dokumentasi yang cukup bagi orang lain untuk mereplikasi.
-
-```
+================================================================================
+LATIHAN 3 — PREPROCESSING REPORT
+================================================================================
 PREPROCESSING SUMMARY
 
-1. Dataset: ____________________
-2. Data awal: ____ records, ____ features
-3. Cleaning:
-   - Missing values: ____ kasus, metode: ____
-   - Duplikat: ____ kasus, tindakan: ____
-   - Error: ____ kasus, tindakan: ____
-4. Transformation: ____________________
-5. Normalisasi: ____ (metode), parameter dari ____
-6. Data akhir: ____ records, ____ features
-7. Leakage check: [ ] Lulus / [ ] Ada masalah
-```
+1. Dataset          : Telemetri Jaringan Emulasi Mininet & BGP Route Views
+2. Data awal       : 150 records (log eksperimen), 4 features utama
+3. Cleaning        :
+   - Missing values : 2 kasus (1.33%), metode: Listwise deletion dilanjutkan re-run terisolasi.
+   - Duplikat       : 0 kasus, tindakan: Verifikasi stempel waktu PCAP.
+   - Error/Outlier  : 1 kasus (0.67%), tindakan: Eliminasi data akibat host execution latency dan re-run.
+4. Transformation  : Ekstraksi durasi pesan BGP Update dari file PCAP mentah menjadi metrik detik.
+5. Normalisasi     : Min-Max Scaling [0,1] pada fitur input LSTM, parameter dihitung dari training set.
+6. Data akhir      : 150 records, 4 features
+7. Leakage check   : [X] Lulus / [ ] Ada masalah
 
----
+================================================================================
+REFLEKSI
+================================================================================
+Normalisasi "Tanpa Pertimbangan" dan Risiko Over-Preprocessing:
+Normalisasi sering kali dilakukan secara otomatis tanpa mempertimbangkan jenis analisis statistik yang akan diterapkan. Tindakan over-preprocessing (seperti melakukan scaling berlebihan pada metrik fisik yang sudah memiliki satuan baku) berisiko mengaburkan makna empiris dari data riil, menghilangkan variabilitas alami, serta menyulitkan penafsiran hasil secara praktis di lapangan.
 
-## Refleksi
-
-> Apakah Anda pernah melakukan normalisasi "karena biasa dilakukan" tanpa mempertimbangkan apakah benar-benar diperlukan? Apa risiko over-preprocessing?
-
-> ___________________________________________________
-> ___________________________________________________
+Pencegahan Data Leakage dalam Preprocessing:
+Risiko utama dalam preprocessing adalah terjadinya data leakage, yaitu ketika informasi dari data uji (test set) mencemari proses transformasi data latih. Hal ini dapat dihindari secara ketat dengan memisahkan tahap split dataset sebelum kalkulasi statistik (seperti rata-rata, standar deviasi, atau nilai minimum-maksimum) dilakukan.
